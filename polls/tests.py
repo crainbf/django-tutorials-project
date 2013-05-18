@@ -6,11 +6,16 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
+import datetime
+from django.utils import timezone
+from polls.models import Poll
 
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
+class PollTest(TestCase):
+    def test_future_test_not_shown_as_recent(self):
         """
-        Tests that 1 + 1 always equals 2.
+        was_published_recently should return false for Polls that have a pub_date that is in the future
         """
-        self.assertEqual(1 + 1, 2)
+        future_poll = Poll(pub_date=timezone.now() + datetime.timedelta(days=30))
+        self.assertEqual(future_poll.was_published_recently(), False)
+
